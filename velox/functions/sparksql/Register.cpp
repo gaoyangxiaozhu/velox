@@ -32,6 +32,7 @@
 #include "velox/functions/sparksql/DateTimeFunctions.h"
 #include "velox/functions/sparksql/Hash.h"
 #include "velox/functions/sparksql/In.h"
+#include "velox/functions/sparksql/InputFileName.h"
 #include "velox/functions/sparksql/LeastGreatest.h"
 #include "velox/functions/sparksql/MightContain.h"
 #include "velox/functions/sparksql/MonotonicallyIncreasingId.h"
@@ -427,6 +428,9 @@ void registerFunctions(const std::string& prefix) {
   registerArrayUnionFunctions<Date>(prefix);
   registerArrayUnionFunctions<Timestamp>(prefix);
   registerArrayUnionFunctions<Generic<T1>>(prefix);
+
+  registerFunction<InputFileNameFunction, Varchar>(
+      {prefix + "input_file_name"});
 }
 
 } // namespace sparksql
