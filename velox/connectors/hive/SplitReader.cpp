@@ -216,7 +216,9 @@ void SplitReader::setRowIndexColumnInfoIfNeed(
   auto rowIndexMetaColIdx =
       readerOutputType_->getChildIdxIfExists(kSparkReservedTmpMetaRowIndex);
   if (rowIndexMetaColIdx.has_value() &&
-      !fileType->containsChild(kSparkReservedTmpMetaRowIndex)) {
+      !fileType->containsChild(kSparkReservedTmpMetaRowIndex) &&
+      hiveSplit_->partitionKeys.find(kSparkReservedTmpMetaRowIndex) ==
+          hiveSplit_->partitionKeys.end()) {
     dwio::common::RowNumberColumnInfo rowNumberColumnInfo;
     rowNumberColumnInfo.insertPosition = rowIndexMetaColIdx.value();
     rowNumberColumnInfo.name = kSparkReservedTmpMetaRowIndex;
