@@ -429,8 +429,11 @@ void registerFunctions(const std::string& prefix) {
   registerArrayUnionFunctions<Timestamp>(prefix);
   registerArrayUnionFunctions<Generic<T1>>(prefix);
 
-  registerFunction<InputFileNameFunction, Varchar>(
-      {prefix + "input_file_name"});
+  exec::registerStatefulVectorFunction(
+      prefix + "input_file_name",
+      inputFileNameSignatures(),
+      makeInputFileName,
+      {deterministic : false});
 }
 
 } // namespace sparksql

@@ -16,6 +16,7 @@
 
 #include "velox/expression/EvalCtx.h"
 #include <exception>
+#include <iostream>
 #include "velox/common/testutil/TestValue.h"
 #include "velox/core/QueryConfig.h"
 #include "velox/expression/Expr.h"
@@ -25,10 +26,15 @@ using facebook::velox::common::testutil::TestValue;
 
 namespace facebook::velox::exec {
 
-EvalCtx::EvalCtx(core::ExecCtx* execCtx, ExprSet* exprSet, const RowVector* row)
+EvalCtx::EvalCtx(
+    core::ExecCtx* execCtx,
+    ExprSet* exprSet,
+    const RowVector* row,
+    DriverCtx* driverCtx)
     : execCtx_(execCtx),
       exprSet_(exprSet),
       row_(row),
+      driverCtx_(driverCtx),
       cacheEnabled_(execCtx->exprEvalCacheEnabled()),
       maxSharedSubexprResultsCached_(
           execCtx->queryCtx()
@@ -56,6 +62,7 @@ EvalCtx::EvalCtx(core::ExecCtx* execCtx)
     : execCtx_(execCtx),
       exprSet_(nullptr),
       row_(nullptr),
+      driverCtx_(nullptr),
       cacheEnabled_(execCtx->exprEvalCacheEnabled()),
       maxSharedSubexprResultsCached_(
           execCtx->queryCtx()
